@@ -15,8 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mButtonTop;
     private Button mButtonBottom;
 
-    private int mIndex;
-    private int mStoryIndex;
+    private int mStoryIndex = 1;
 
     private int[] storyT3 = new int[] {
             R.string.T3_Story,
@@ -30,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
             R.string.T2_Ans2
     };
 
-    private int mPreviousButton = 0; // 1 -> top 2-> bottom
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,12 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             mStoryIndex = savedInstanceState.getInt("StoryIndexKey");
-            mIndex = savedInstanceState.getInt("IndexKey");
-            mPreviousButton = savedInstanceState.getInt("PreviousButtonKey");
         } else {
-            mStoryIndex = 0;
-            mIndex = 0;
-            mPreviousButton = 0;
+            mStoryIndex = 1;
         }
 
         // TODO: Step 5 - Wire up the 3 views from the layout to the member variables:
@@ -82,47 +75,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void eventButtonTop() {
-        mIndex = mIndex + 1;
-        if (mIndex == 1){
+        if (mStoryIndex == 1){
             updateStory(storyT3);
             mStoryIndex = 3;
-
-        } else if ( mIndex == 2 ) {
-            if (mPreviousButton == 1) {
-                endOfStory(R.string.T6_End);
-                mStoryIndex = 6;
-
-            } else {
-                updateStory(storyT3);
-                mStoryIndex = 3;
-            }
-        }
-        else if (mIndex == 3) {
+        } else if ( mStoryIndex == 2 ) {
+            updateStory(storyT3);
+            mStoryIndex = 3;
+        } else if (mStoryIndex == 3) {
             endOfStory(R.string.T6_End);
             mStoryIndex = 6;
         }
-        mPreviousButton = 1;
     }
 
     private void eventButtonBottom() {
-        mIndex = mIndex + 1;
-        if (mIndex == 1){
+        if (mStoryIndex == 1){
             updateStory(storyT2);
             mStoryIndex = 2;
-        } else if (mIndex == 2) {
-            if (mPreviousButton == 1) {
-                endOfStory(R.string.T5_End);
-                mStoryIndex = 5;
-            } else {
-                endOfStory(R.string.T4_End);
-                mStoryIndex = 4;
-            }
-        } else if (mIndex == 3) {
+        } else if (mStoryIndex == 2) {
+            endOfStory(R.string.T4_End);
+            mStoryIndex = 4;
+        } else if (mStoryIndex == 3) {
             endOfStory(R.string.T5_End);
             mStoryIndex = 5;
         }
-        mPreviousButton = 2;
     }
+
     private void updateStory(int[] story) {
         mStoryTextView.setText(story[0]);
         mButtonTop.setText(story[1]);
@@ -160,8 +137,6 @@ public class MainActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("StoryIndexKey",mStoryIndex);
-        outState.putInt("IndexKey",mIndex);
-        outState.putInt("PreviousButtonKey",mPreviousButton);
     }
 
 }
