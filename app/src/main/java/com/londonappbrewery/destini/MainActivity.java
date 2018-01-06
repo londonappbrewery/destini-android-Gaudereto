@@ -29,6 +29,11 @@ public class MainActivity extends AppCompatActivity {
             R.string.T2_Ans2
     };
 
+    private int[] storyT1 = new int[] {
+            R.string.T1_Story,
+            R.string.T1_Ans1,
+            R.string.T1_Ans2
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,11 +123,15 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Game Over");
         alert.setCancelable(false);
-        alert.setMessage("You reached the end! Would you like to try again or finish the app" );
+        alert.setMessage("You reached the end! Would you like to try again or finish the app?" );
         alert.setPositiveButton("Try again", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
+                mStoryIndex = 1;
+                mButtonTop.setVisibility(View.VISIBLE);
+                mButtonBottom.setVisibility(View.VISIBLE);
+                updateStory(storyT1);
+
             }
         });
         alert.setNegativeButton("Close Application", new DialogInterface.OnClickListener() {
